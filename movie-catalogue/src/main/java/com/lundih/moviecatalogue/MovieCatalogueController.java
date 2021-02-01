@@ -3,6 +3,7 @@ package com.lundih.moviecatalogue;
 import com.lundih.moviecatalogue.models.Movie;
 import com.lundih.moviecatalogue.models.MovieCatalogueItem;
 import com.lundih.moviecatalogue.models.RatingItem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +16,15 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/catalogue")
 public class MovieCatalogueController {
+    private final RestTemplate restTemplate;
+
+    @Autowired
+    public MovieCatalogueController(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @GetMapping("/{userId}")
     public List<MovieCatalogueItem> getCatalogue(@PathVariable("userId")  String userId) {
-        RestTemplate restTemplate = new RestTemplate();
 
         // Make call to url and receive response as a string
         // Provide a class with the same properties as the response json and the rest template is gonna create an
